@@ -1,1 +1,1 @@
-# Student data base systrm using C
+# Student data base system using C
