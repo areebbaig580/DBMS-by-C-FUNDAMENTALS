@@ -16,7 +16,8 @@ int showmenu()
     printf("1- Add students detail\n");
     printf("2- View all students detail\n");
     printf("3- View one student detail\n");
-    printf("4- Close program \n\n");
+    printf("4- Update student detail\n");
+    printf("5- Exit program\n\n");
     printf("select your choice: ");
     scanf("%d", &choice);
     return choice;
@@ -29,7 +30,7 @@ int main()
 
     FILE *ptr;
 
-    while ((choice = showmenu()) != 4)
+    while ((choice = showmenu()) != 5)
     {
 
         if (choice == 1)
@@ -64,6 +65,7 @@ int main()
             {
                 printf("%c", ch);
             }
+            fclose(ptr);
         }
 
         else if (choice == 3)
@@ -89,13 +91,53 @@ int main()
                     break;
                 }
             }
+            fclose(ptr);
+        }
+        else if (choice == 4)
+        {
+            int update_r;
+            FILE *ptr1;
+            ptr = fopen("dbms.txt", "r");
+            ptr1 = fopen("temp.txt", "w");
+
+            printf("Enter Roll no. to update: ");
+            scanf("%d", &update_r);
+
+            db s;
+            while (fscanf(ptr, "%s %s %d %f", s.name, s.program, &s.roll_no, &s.percentage) == 4)
+            {
+
+                if (s.roll_no == update_r)
+                {
+                    printf("\nName = %s \nProgramme = %s \nPercentage = %.2f\n", s.name, s.program, s.percentage);
+
+                    printf("\nEnter new record:\n");
+                    
+                    printf("\nEnter name: ");
+                    scanf("%s", s.name);
+
+                    printf("Enter Programme: ");
+                    scanf("%s", s.program);
+
+                    printf("Enter Percentage: ");
+                    scanf("%f", &s.percentage);
+
+                    printf("\nRecord updated successfully!\n");
+                }
+                fprintf(ptr1, "%s\t\t %s\t\t\t %d\t\t\t\t %.2f\n", s.name, s.program, s.roll_no, s.percentage);
+            }
+            fclose(ptr);
+            fclose(ptr1);
+
+            remove("dbms.txt");
+            rename("temp.txt","dbms.txt");
         }
     }
-    if (choice == 4)
+
+    if (choice == 5)
     {
         printf("\"Program closed\"");
     }
-    fclose(ptr);
-    
+
     return 0;
 }
